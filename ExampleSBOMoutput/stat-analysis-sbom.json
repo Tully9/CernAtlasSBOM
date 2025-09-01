@@ -1,0 +1,628 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.4.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:96ed9c44-8e0b-4444-8366-9927ed064de7",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-01T14:45:04.182565+00:00",
+    "tools": [
+      {
+        "name": "StatAnalysis SBOM Generator",
+        "version": "1.0.0"
+      }
+    ]
+  },
+  "components": [
+    {
+      "bom-ref": "BomRef.6190718957142314.1895398397439947",
+      "name": "AtlasCMake",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "BomRef.5021778881993018.3867497764175263",
+      "name": "CUDAToolkit",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\onnxruntime\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "BomRef.8942236869525944.46774801309187564",
+      "name": "Davix",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "ProjectOptions\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "BomRef.7370180591924972.9916171309011254",
+      "name": "Eigen",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\CMSCombine\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "BomRef.7188148563994027.4359371533430889",
+      "name": "LCG",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "${LCG_VERSION_NUMBER}"
+    },
+    {
+      "bom-ref": "BomRef.3545813898152437.5198302120336739",
+      "name": "LibXml2",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\XRootD\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "BomRef.5976572413347774.21931306966985864",
+      "name": "OpenSSL",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\OpenSSL\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "1.1"
+    },
+    {
+      "bom-ref": "BomRef.22867069809104545.9080119532761932",
+      "name": "OpenSSL",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\XRootD\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "BomRef.21729887792958402.43119050900635414",
+      "name": "PyAnalysisEnvironment",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\PyAnalysis\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "BomRef.32820944302134314.3490624620861512",
+      "name": "ROOT",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "ProjectOptions\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "BomRef.729338666739023.9569722807295894",
+      "name": "StatAnalysis",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "WorkDir\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "BomRef.09500296353504334.04721982949778836",
+      "name": "TBB",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "ProjectOptions\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "2018"
+    },
+    {
+      "bom-ref": "BomRef.5863799034643354.7992285989242244",
+      "name": "TBB",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\ROOT\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "BomRef.5942205283015466.11074784497901136",
+      "name": "UUID",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "ProjectOptions\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "BomRef.2837603156426798.9921941795078023",
+      "name": "Xrootd",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "ProjectOptions\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "4.1"
+    },
+    {
+      "bom-ref": "BomRef.6712730490660118.21293802685158003",
+      "name": "ZLIB",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\XRootD\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "BomRef.3293642606833852.8882739061407581",
+      "name": "cabinetry",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\PyExternals\\requirements.txt"
+        },
+        {
+          "name": "source",
+          "value": "requirements.txt"
+        }
+      ],
+      "type": "library",
+      "version": "==0.6.0"
+    },
+    {
+      "bom-ref": "BomRef.343244951778636.335930673073239",
+      "name": "cuDNN",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\onnxruntime\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "BomRef.3422959930890286.10510514259174641",
+      "name": "dcap",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "ProjectOptions\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "BomRef.400665352015793.8649146364130397",
+      "name": "gnureadline",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\PyExternals\\requirements.txt"
+        },
+        {
+          "name": "source",
+          "value": "requirements.txt"
+        }
+      ],
+      "type": "library",
+      "version": "==8.1.2"
+    },
+    {
+      "bom-ref": "BomRef.1348082470348445.3514557385643694",
+      "name": "iminuit",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\PyExternals\\requirements.txt"
+        },
+        {
+          "name": "source",
+          "value": "requirements.txt"
+        }
+      ],
+      "type": "library",
+      "version": "==2.17.0"
+    },
+    {
+      "bom-ref": "BomRef.38891252959707256.26337964518445744",
+      "name": "ipykernel",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\PyExternals\\requirements.txt"
+        },
+        {
+          "name": "source",
+          "value": "requirements.txt"
+        }
+      ],
+      "type": "library",
+      "version": "==6.15.0"
+    },
+    {
+      "bom-ref": "BomRef.5666629850162589.25501306297306736",
+      "name": "ipython",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\PyExternals\\requirements.txt"
+        },
+        {
+          "name": "source",
+          "value": "requirements.txt"
+        }
+      ],
+      "type": "library",
+      "version": "==8.2.0"
+    },
+    {
+      "bom-ref": "BomRef.40013590142065625.003210877601490636",
+      "name": "libffi",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\PyAnalysis\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "BomRef.03128991180393326.2519231809164101",
+      "name": "metakernel",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\PyExternals\\requirements.txt"
+        },
+        {
+          "name": "source",
+          "value": "requirements.txt"
+        }
+      ],
+      "type": "library",
+      "version": "==0.29.0"
+    },
+    {
+      "bom-ref": "BomRef.19324365476977545.33265341539502247",
+      "name": "pandas",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\PyExternals\\requirements.txt"
+        },
+        {
+          "name": "source",
+          "value": "requirements.txt"
+        }
+      ],
+      "type": "library",
+      "version": "~=2.1.1"
+    },
+    {
+      "bom-ref": "BomRef.6082420346381929.5904129511047566",
+      "name": "pip",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\PyExternals\\CMakeLists.txt"
+        },
+        {
+          "name": "source",
+          "value": "CMakeLists.txt"
+        }
+      ],
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "BomRef.8967371059032176.475974598526143",
+      "name": "pyhf",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\PyExternals\\requirements.txt"
+        },
+        {
+          "name": "source",
+          "value": "requirements.txt"
+        }
+      ],
+      "type": "library",
+      "version": "==0.7.6"
+    },
+    {
+      "bom-ref": "BomRef.07045888937452305.5791683607685612",
+      "name": "pytest",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\PyExternals\\requirements.txt"
+        },
+        {
+          "name": "source",
+          "value": "requirements.txt"
+        }
+      ],
+      "type": "library",
+      "version": "==7.1.3"
+    },
+    {
+      "bom-ref": "BomRef.09012862429911284.08034222166690219",
+      "name": "pytest-order",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\PyExternals\\requirements.txt"
+        },
+        {
+          "name": "source",
+          "value": "requirements.txt"
+        }
+      ],
+      "type": "library",
+      "version": "==1.3.0"
+    },
+    {
+      "bom-ref": "BomRef.45719570919034924.43847190028499605",
+      "name": "quickstats",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\PyExternals\\requirements.txt"
+        },
+        {
+          "name": "source",
+          "value": "requirements.txt"
+        }
+      ],
+      "type": "library",
+      "version": "==0.8.4"
+    },
+    {
+      "bom-ref": "BomRef.7137621364026878.24077230973484398",
+      "name": "xrootd",
+      "properties": [
+        {
+          "name": "file_path",
+          "value": "Externals\\PyExternals\\requirements.txt"
+        },
+        {
+          "name": "source",
+          "value": "requirements.txt"
+        }
+      ],
+      "type": "library",
+      "version": "==5.8.3"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "BomRef.6190718957142314.1895398397439947"
+    },
+    {
+      "ref": "BomRef.5021778881993018.3867497764175263"
+    },
+    {
+      "ref": "BomRef.8942236869525944.46774801309187564"
+    },
+    {
+      "ref": "BomRef.7370180591924972.9916171309011254"
+    },
+    {
+      "ref": "BomRef.7188148563994027.4359371533430889"
+    },
+    {
+      "ref": "BomRef.3545813898152437.5198302120336739"
+    },
+    {
+      "ref": "BomRef.5976572413347774.21931306966985864"
+    },
+    {
+      "ref": "BomRef.22867069809104545.9080119532761932"
+    },
+    {
+      "ref": "BomRef.21729887792958402.43119050900635414"
+    },
+    {
+      "ref": "BomRef.32820944302134314.3490624620861512"
+    },
+    {
+      "ref": "BomRef.729338666739023.9569722807295894"
+    },
+    {
+      "ref": "BomRef.09500296353504334.04721982949778836"
+    },
+    {
+      "ref": "BomRef.5863799034643354.7992285989242244"
+    },
+    {
+      "ref": "BomRef.5942205283015466.11074784497901136"
+    },
+    {
+      "ref": "BomRef.2837603156426798.9921941795078023"
+    },
+    {
+      "ref": "BomRef.6712730490660118.21293802685158003"
+    },
+    {
+      "ref": "BomRef.3293642606833852.8882739061407581"
+    },
+    {
+      "ref": "BomRef.343244951778636.335930673073239"
+    },
+    {
+      "ref": "BomRef.3422959930890286.10510514259174641"
+    },
+    {
+      "ref": "BomRef.400665352015793.8649146364130397"
+    },
+    {
+      "ref": "BomRef.1348082470348445.3514557385643694"
+    },
+    {
+      "ref": "BomRef.38891252959707256.26337964518445744"
+    },
+    {
+      "ref": "BomRef.5666629850162589.25501306297306736"
+    },
+    {
+      "ref": "BomRef.40013590142065625.003210877601490636"
+    },
+    {
+      "ref": "BomRef.03128991180393326.2519231809164101"
+    },
+    {
+      "ref": "BomRef.19324365476977545.33265341539502247"
+    },
+    {
+      "ref": "BomRef.6082420346381929.5904129511047566"
+    },
+    {
+      "ref": "BomRef.8967371059032176.475974598526143"
+    },
+    {
+      "ref": "BomRef.07045888937452305.5791683607685612"
+    },
+    {
+      "ref": "BomRef.09012862429911284.08034222166690219"
+    },
+    {
+      "ref": "BomRef.45719570919034924.43847190028499605"
+    },
+    {
+      "ref": "BomRef.7137621364026878.24077230973484398"
+    }
+  ]
+}
