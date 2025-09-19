@@ -90,7 +90,7 @@ class SBOMGenerator:
         for dep in sorted(self.dependencies, key=lambda x: x.name.lower()):
             component = Component(
                 name=dep.name,
-                version=dep.version or "unknown",
+                version=dep.version or "undefined",
                 type=ComponentType.LIBRARY
             )
             if dep.source:
@@ -127,7 +127,7 @@ class SBOMGenerator:
                 md.append("| Package | Version |")
                 md.append("|---------|---------|")
                 for dep in sorted(deps, key=lambda x: x.name.lower()):
-                    md.append(f"| {dep.name} | {dep.version or 'unknown'} |")
+                    md.append(f"| {dep.name} | {dep.version or 'undefined'} |")
                 md.append("")
 
         return "\n".join(md)

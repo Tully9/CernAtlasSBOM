@@ -20,7 +20,6 @@
 | Significance | d59b9a2 |
 | SystematicSmoothingTool | dcb0c627 |
 | TRExFitter | v1.4.0 |
-| Unchanged | COOL_ORA_ENABLE_ADAPTIVE_OPT=Y |
 | workspaceCombiner | caab7296 |
 | xmlAnaWSBuilder | 476abf92 |
 | xRooFit | 094775af |
