@@ -11,5 +11,5 @@
 git clone https://github.com/Tully9/AtlasStatAnalysis
 cd AtlastStatAnalysis/
 setupATLAS
-bash startSBOM.sh
+bash setup.sh
 ```
