@@ -1,15 +1,5 @@
-# SBOM for StatAnalysis
+# Software Bill of Material generation scripts for the CERN Atlas Projects
 
-## How to run
-1. SSH into LX PLUS
-1. Clone this repository ```git clone https://github.com/Tully9/AtlasStatAnalysis```
-2. Insert ```cd AtlastStatAnalysis/``` into the terminal
-3. Then ```setupATLAS```
-4. Run the shell file ```bash setup.sh```
-
-```bash
-git clone https://github.com/Tully9/AtlasStatAnalysis
-cd AtlastStatAnalysis/
-setupATLAS
-bash startSBOM.sh
-```
+Current Projects Supported:
+- (StatAnalysis)[https://gitlab.cern.ch/atlas/StatAnalysis]
+- (AnalysisBase)[https://gitlab.cern.ch/atlas/athena/-/tree/main/Projects/AnalysisBase?ref_type=heads] (In Development)
