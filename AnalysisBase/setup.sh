@@ -23,6 +23,7 @@ echo "Setting up ATLAS and AnalysisBase..."
 set +e
 source /cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase/user/atlasLocalSetup.sh
 set -e
+cd ..
 python -v -c "quit()" > pyDep.txt 2>&1
 python3 sbomGenerator.py --parse-cpp
 
@@ -33,7 +34,8 @@ pip install cyclonedx-python-lib
 
 # --- Generate SBOM and Markdown report ---
 echo "Generating SBOM and Markdown report..."
-cd ..
 python3 sbomGenerator.py --parse-cpp
+rm -rf AtlasExternals
+rm cppDep.txt pyDep.txt
 
 echo "SBOM generation complete!"
