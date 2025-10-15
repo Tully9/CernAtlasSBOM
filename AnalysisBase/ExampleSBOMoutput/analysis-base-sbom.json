@@ -3,153 +3,94 @@
     "bomFormat": "CycloneDX",
     "components": [
         {
-            "bom-ref": "BomRef.621740908019564.03866568226132472",
+            "bom-ref": "BomRef.40186884392063427.8626194637689855",
             "name": "Boost",
-            "properties": [
-                {
-                    "name": "source",
-                    "value": "cppDep.txt"
-                }
-            ],
             "type": "library",
             "version": "1.86.0"
         },
         {
-            "bom-ref": "BomRef.5253191758041275.16294399148269667",
+            "bom-ref": "BomRef.15896420454668736.2713817633872997",
             "name": "Davix",
-            "properties": [
-                {
-                    "name": "source",
-                    "value": "cppDep.txt"
-                }
-            ],
             "type": "library",
             "version": "0.8.7"
         },
         {
-            "bom-ref": "BomRef.8167459403422404.5815226382751371",
+            "bom-ref": "BomRef.10317246434379346.1080175465827461",
             "name": "Eigen",
-            "properties": [
-                {
-                    "name": "source",
-                    "value": "cppDep.txt"
-                }
-            ],
             "type": "library",
             "version": "3.4.0"
         },
         {
-            "bom-ref": "BomRef.03699634462258794.2591443807250695",
+            "bom-ref": "BomRef.962532987792595.565982411330891",
             "name": "Python",
-            "properties": [
-                {
-                    "name": "source",
-                    "value": "pyDep.txt"
-                }
-            ],
             "type": "library",
             "version": "3.12.11"
         },
         {
-            "bom-ref": "BomRef.9876971115485723.862219144993007",
-            "name": "Root",
-            "properties": [
-                {
-                    "name": "source",
-                    "value": "cppDep.txt"
-                }
-            ],
-            "type": "library",
-            "version": "6.32.08"
-        },
-        {
-            "bom-ref": "BomRef.7324963063796538.2312316472467696",
+            "bom-ref": "BomRef.7742099307680611.5009832236392595",
             "name": "TBB",
-            "properties": [
-                {
-                    "name": "source",
-                    "value": "cppDep.txt"
-                }
-            ],
             "type": "library",
             "version": "2021.10.0"
         },
         {
-            "bom-ref": "BomRef.9602874078640725.12626376587626253",
+            "bom-ref": "BomRef.09090749328090308.1120787252610509",
             "name": "XRootD",
-            "properties": [
-                {
-                    "name": "source",
-                    "value": "cppDep.txt"
-                }
-            ],
             "type": "library",
             "version": "5.7.2"
         },
         {
-            "bom-ref": "BomRef.1579861736088639.9760130421666309",
+            "bom-ref": "BomRef.8148876346959957.9818462897272424",
             "name": "dcap",
-            "properties": [
-                {
-                    "name": "source",
-                    "value": "cppDep.txt"
-                }
-            ],
             "type": "library",
             "version": "2.47.7"
         },
         {
-            "bom-ref": "BomRef.7427475094492214.34679088069324626",
+            "bom-ref": "BomRef.6158549887553961.42561507362495754",
             "name": "nlohmann_json",
-            "properties": [
-                {
-                    "name": "source",
-                    "value": "cppDep.txt"
-                }
-            ],
             "type": "library",
             "version": "3.11.3"
         }
     ],
     "dependencies": [
         {
-            "ref": "BomRef.621740908019564.03866568226132472"
+            "ref": "BomRef.40186884392063427.8626194637689855"
         },
         {
-            "ref": "BomRef.5253191758041275.16294399148269667"
+            "ref": "BomRef.15896420454668736.2713817633872997"
         },
         {
-            "ref": "BomRef.8167459403422404.5815226382751371"
+            "ref": "BomRef.10317246434379346.1080175465827461"
         },
         {
-            "ref": "BomRef.03699634462258794.2591443807250695"
+            "ref": "BomRef.962532987792595.565982411330891"
         },
         {
-            "ref": "BomRef.9876971115485723.862219144993007"
+            "ref": "BomRef.7742099307680611.5009832236392595"
         },
         {
-            "ref": "BomRef.7324963063796538.2312316472467696"
+            "ref": "BomRef.09090749328090308.1120787252610509"
         },
         {
-            "ref": "BomRef.9602874078640725.12626376587626253"
+            "ref": "BomRef.8148876346959957.9818462897272424"
         },
         {
-            "ref": "BomRef.1579861736088639.9760130421666309"
-        },
-        {
-            "ref": "BomRef.7427475094492214.34679088069324626"
+            "ref": "BomRef.6158549887553961.42561507362495754"
         }
     ],
     "metadata": {
-        "timestamp": "2025-10-14T14:43:22.810723+00:00",
-        "tools": [
+        "properties": [
             {
-                "name": "AnalysisBase SBOM Generator",
-                "version": "2.1.16.7"
+                "name": "AnalysisBase",
+                "value": "25.2.69"
+            },
+            {
+                "name": "AnalysisBaseExternals",
+                "value": "2.1.16.7"
             }
-        ]
+        ],
+        "timestamp": "2025-10-14T22:45:08.127159+00:00"
     },
-    "serialNumber": "urn:uuid:1c499dc2-4371-4012-aeaa-3eda9d55fc09",
+    "serialNumber": "urn:uuid:7e6fa009-9fd5-4279-9911-a9e077359142",
     "specVersion": "1.4",
     "version": 1
 }

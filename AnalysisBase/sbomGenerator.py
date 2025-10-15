@@ -110,12 +110,16 @@ class SBOMGenerator:
         print(f"Exiting parse_cmakelists() - Current directory: {os.getcwd()}")
 
     # --- CycloneDX SBOM JSON ---
-    def generate_cyclonedx_sbom(self) -> str:
-        bom = Bom(
-            metadata=BomMetaData(
-                tools=[Tool(name="AnalysisBase SBOM Generator", version="2.1.16.7")]
-            )
+    def generate_cyclonedx_sbom(self, analysisbase_version="25.2.69", externals_version="2.1.16.7") -> str:
+        # Place metadata near the top, only include AnalysisBase and AnalysisBaseExternals properties
+        metadata = BomMetaData(
+            properties=[
+                Property(name="AnalysisBase", value=analysisbase_version),
+                Property(name="AnalysisBaseExternals", value=externals_version)
+            ]
         )
+
+        bom = Bom(metadata=metadata)
 
         for dep in sorted(self.dependencies, key=lambda x: x.name.lower()):
             component = Component(
@@ -123,8 +127,7 @@ class SBOMGenerator:
                 version=dep.version or "undefined",
                 type=ComponentType.LIBRARY
             )
-            if dep.source:
-                component.properties.add(Property(name="source", value=dep.source))
+            # Do NOT add per-component properties
             bom.components.add(component)
 
         outputter = make_outputter(
