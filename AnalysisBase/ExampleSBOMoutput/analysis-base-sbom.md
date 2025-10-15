@@ -1,7 +1,14 @@
 # AnalysisBase SBOM Report
 
-**Generated on:** 2025-10-14 07:43:22
-**Total dependencies:** 9
+**Generated on:** 2025-10-15 12:51:37
+**Total dependencies:** 8
+
+## Source Versions
+
+| Source | Version |
+|--------|---------|
+| AnalysisBase | 25.2.69 |
+| AnalysisBaseExternals | 2.1.16.7 |
 
 ## All Dependencies
 
