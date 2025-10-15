@@ -144,11 +144,18 @@ class SBOMGenerator:
         print(f"SBOM saved to {output_path}")
 
     # --- Markdown report ---
-    def generate_markdown_report(self) -> str:
+    def generate_markdown_report(self, analysisbase_version="25.2.69", externals_version="2.1.16.7") -> str:
         md = []
         md.append("# AnalysisBase SBOM Report\n")
         md.append(f"**Generated on:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         md.append(f"**Total dependencies:** {len(self.dependencies)}\n")
+
+        # Add version info table
+        md.append("## Source Versions\n")
+        md.append("| Source | Version |")
+        md.append("|--------|---------|")
+        md.append(f"| AnalysisBase | {analysisbase_version} |")
+        md.append(f"| AnalysisBaseExternals | {externals_version} |\n")
 
         if self.dependencies:
             md.append("## All Dependencies\n")
