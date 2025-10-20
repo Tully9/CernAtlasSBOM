@@ -1,17 +1,14 @@
-"""
+﻿"""
 SBOM Generator for AnalysisBase
 """
 
-import json
 import re
-import sys
 import os
 from pathlib import Path
-from typing import Optional, Set
+from typing import Optional, Set, List
 from dataclasses import dataclass
 from cyclonedx.model.bom import Bom, BomMetaData
 from cyclonedx.model.component import Component, ComponentType
-from cyclonedx.model.tool import Tool
 from cyclonedx.model import Property
 from cyclonedx.output import make_outputter, OutputFormat
 from cyclonedx.schema import SchemaVersion
@@ -33,103 +30,326 @@ class Dependency:
 
 
 class SBOMGenerator:
-    def __init__(self, py_file="pyDep.txt", cpp_file="cppDep.txt"):
-        self.py_file = Path(py_file)
-        self.cpp_file = Path(cpp_file)
+    def __init__(self):
+        base = os.path.dirname(__file__)
+        self.py_file = Path(os.path.join(base, "pyDep.txt"))
+        self.cpp_file = Path(os.path.join(base, "cppDep.txt"))
         self.dependencies: Set[Dependency] = set()
 
-    # --- Python dependencies ---
     def parse_py_deps(self):
         if not self.py_file.exists():
             print(f"Python dependency file not found: {self.py_file}")
             return
 
-        pattern = r"^([A-Za-z0-9_]+)\s*:\s*(.*)$"
+        pattern = r"^([A-Za-z0-9_\-]+)\s*:\s*(.*)$"
 
         with open(self.py_file, "r", encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
-                match = re.match(pattern, line)
-                if not match:
+                if not line:
                     continue
-                name, version_raw = match.groups()
+                m = re.match(pattern, line)
+                if not m:
+                    continue
+                name, version_raw = m.groups()
                 version = version_raw.split()[0] if version_raw else "undefined"
-                self.dependencies.add(Dependency(name=name, version=version, source="pyDep.txt"))
+                self.dependencies.add(Dependency(name=name, version=version, source=str(self.py_file)))
 
-    # --- C++ dependencies ---
-    # Use to parce CMakeLists.txt files to extract dependency versions
     def parse_cpp_deps(self):
         if not self.cpp_file.exists():
             print(f"C++ dependency file not found: {self.cpp_file}")
             return
 
-        pattern = r"^([A-Za-z0-9_]+)\s*:\s*(.*)$"
+        pattern = r"^([A-Za-z0-9_\-]+)\s*:\s*(.*)$"
 
         with open(self.cpp_file, "r", encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
-                match = re.match(pattern, line)
-                if not match:
+                if not line:
                     continue
-                name, version_raw = match.groups()
+                m = re.match(pattern, line)
+                if not m:
+                    continue
+                name, version_raw = m.groups()
                 version_raw = version_raw.strip()
-
-                # Extract version as everything before the first whitespace (timestamp) or empty -> undefined
                 version = version_raw.split()[0] if version_raw else "undefined"
+                self.dependencies.add(Dependency(name=name, version=version, source=str(self.cpp_file)))
 
-                self.dependencies.add(Dependency(name=name, version=version, source="cppDep.txt"))
+    def _load_package_filters(self, filters_path: Optional[str] = None) -> List[str]:
+        candidates = []
+        if filters_path:
+            candidates.append(filters_path)
+        candidates.append(os.path.join(os.getcwd(), "package_filters.txt"))
+        candidates.append(os.path.join(os.getcwd(), "..", "Projects", "AnalysisBaseExternals", "package_filters.txt"))
+        candidates.append(os.path.join(os.path.dirname(__file__), "package_filters.txt"))
+
+        chosen = None
+        for c in candidates:
+            try:
+                if os.path.isfile(os.path.abspath(c)):
+                    chosen = os.path.abspath(c)
+                    break
+            except Exception:
+                continue
+
+        if not chosen:
+            # fallback conservative list
+            return [
+                "HDF5", "BAT", "Blas", "Boost", "Davix", "dcap", "Eigen", "lwtnn",
+                "FastJet", "FastJetContrib", "GoogleTest", "KLFitter", "Lhapdf",
+                "LibXml2", "onnxruntime", "nlohmann_json", "PyAnalysis", "PyModules",
+                "Python", "ROOT", "SQLite", "TBB", "XRootD"
+            ]
+
+        deps: List[str] = []
+        try:
+            with open(chosen, "r", encoding="utf-8") as f:
+                for raw in f:
+                    line = raw.strip()
+                    if not line:
+                        continue
+                    if line.startswith("+") and "External/" in line:
+                        after = line.split("External/", 1)[1].strip()
+                        pkg = after.split()[0]
+                        if pkg:
+                            deps.append(pkg)
+        except Exception:
+            # on failure return fallback
+            return [
+                "HDF5", "BAT", "Blas", "Boost", "Davix", "dcap", "Eigen", "lwtnn",
+                "FastJet", "FastJetContrib", "GoogleTest", "KLFitter", "Lhapdf",
+                "LibXml2", "onnxruntime", "nlohmann_json", "PyAnalysis", "PyModules",
+                "Python", "ROOT", "SQLite", "TBB", "XRootD"
+            ]
+        return deps
+
+    def export_package_filters(self, dest_dir: Optional[str] = None) -> Optional[str]:
+        src = os.path.join(os.getcwd(), "package_filters.txt")
+        if not os.path.isfile(src):
+            print(f"package_filters.txt not found in current directory: {os.getcwd()}")
+            return None
+        dest_dir = dest_dir or os.path.dirname(__file__)
+        dest = os.path.join(dest_dir, "package_filters.txt")
+        try:
+            with open(src, "r", encoding="utf-8") as fsrc, open(dest, "w", encoding="utf-8") as fdst:
+                fdst.write(fsrc.read())
+            print(f"Copied package_filters.txt to {dest}")
+            return dest
+        except Exception as e:
+            print(f"Failed to copy package_filters.txt: {e}")
+            return None
 
     def parse_cmakelists(self):
         print(f"Entering parse_cmakelists() - Current directory: {os.getcwd()}")
-        deps = [
-            ("Boost", "boost_", r"/sources/boost_([0-9_]+)\.tar\.gz;"),
-            ("Eigen", "eigen-", r"/sources/eigen-([0-9.]+)\.tar\.gz;"),
-            ("Root", "root_v", r"/ROOT/root_v([0-9.]+)\.source\.tar\.gz;"),
-            ("XRootD", "xrootd-", r"/sources/xrootd-([0-9.]+)\.tar\.gz;"),
-            ("dcap", "dcap-", r"/sources/dcap-([0-9.]+)-"),
-            ("Davix", "davix-", r"/sources/davix-([0-9.]+)\.tar\.gz;"),
-            ("TBB", "oneTBB-", r"/sources/oneTBB-([0-9.]+)\.tar\.gz;"),
-            ("nlohmann_json", "json-", r"/sources/json-([0-9.]+)\.tar\.gz;"),
-        ]
+        deps = self._load_package_filters()
+
+        patterns = {
+            "HDF5": [r'ATLAS_HDF5_VERSION\s*"([^"]+)"', r'HDF5[-_]?([0-9.]+)\.tar\.gz'],
+            "BAT": [r'BAT[-_/]?([0-9]+(?:\.[0-9]+){1,})\.tar\.gz', r'/v[0-9]+/BAT-([0-9.]+)\.tar\.gz'],
+            "Blas": [r'OpenBLAS-([0-9.]+)\.tar\.gz'],
+            "Boost": [r'boost_([0-9_]+)\.tar\.gz'],
+            "Davix": [r'davix-([0-9.]+)\.tar\.gz'],
+            "dcap": [r'dcap-([0-9.]+)-', r'dcap-([0-9.]+)\.tar'],
+            "Eigen": [r'eigen-([0-9.]+)\.tar\.gz'],
+            "lwtnn": [r'lwtnn[/\\]v?([0-9.]+)\.tar\.gz', r'externals/lwtnn/v?([0-9.]+)\.tar\.gz', r'v([0-9.]+)\.tar\.gz'],
+            "FastJet": [r'fastjet-([0-9.]+)\.tar\.gz'],
+            "FastJetContrib": [r'fjcontrib-([0-9.]+)\.tar\.gz', r'fastjetcontrib-([0-9.]+)\.tar\.gz'],
+            "GoogleTest": [r'googletest-([0-9.]+)\.tar\.gz'],
+            "KLFitter": [r'KLFitter[/\\]v?([0-9.]+)\.tar\.gz', r'KLFitter-([0-9.]+)\.tar\.gz'],
+            "Lhapdf": [r'LHAPDF-([0-9.]+)\.tar\.gz'],
+            "LibXml2": [r'libxml2-([0-9.]+)\.tar\.gz'],
+            "onnxruntime": [r'onnxruntime[-\w]*-([0-9.]+)\.(?:tgz|tar\.gz)'],
+            "nlohmann_json": [r'json-([0-9.]+)\.tar\.gz'],
+            "Python": [r'libffi-([0-9.]+)\.tar\.gz', r'Python\s+([0-9.]+)'],
+            "ROOT": [r'root_v([0-9.]+)\.source\.tar\.gz', r'ROOT[/\\]root_v([0-9.]+)\.source\.tar\.gz'],
+            "SQLite": [r'sqlite-autoconf-([0-9]+)\.tar\.gz'],
+            "TBB": [r'oneTBB-([0-9.]+)\.tar\.gz'],
+            "XRootD": [r'xrootd-([0-9.]+)\.tar\.gz'],
+        }
+
         cppdep_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "cppDep.txt"))
+
+        existing_entries = set()
+        if os.path.isfile(cppdep_path):
+            try:
+                with open(cppdep_path, "r", encoding="utf-8") as ef:
+                    for l in ef:
+                        existing_entries.add(l.strip())
+            except Exception:
+                pass
+
         with open(cppdep_path, "a", encoding="utf-8") as outf:
-            for dep, prefix, regex in deps:
-                cmake_path = os.path.join(os.getcwd(), dep, "CMakeLists.txt")
+            for dep in deps:
+                dep_key = dep
+                if dep.lower() == "root":
+                    dep_key = "ROOT"
+                elif dep.lower() in ("nlohmann_json", "nlohmann-json"):
+                    dep_key = "nlohmann_json"
+                elif dep.lower() == "blas":
+                    dep_key = "Blas"
+
+                pkg_dir = os.path.join(os.getcwd(), dep)
+                cmake_path = os.path.join(pkg_dir, "CMakeLists.txt")
                 if not os.path.isfile(cmake_path):
+                    alt_path = os.path.join(pkg_dir, "cmake", "CMakeLists.txt")
+                    if os.path.isfile(alt_path):
+                        cmake_path = alt_path
+                    else:
+                        if dep in ("PyModules", "PyAnalysis") and os.path.isdir(pkg_dir):
+                            cmake_path = None
+                        else:
+                            continue
+
+                content = ""
+                if cmake_path and os.path.isfile(cmake_path):
+                    try:
+                        with open(cmake_path, "r", encoding="utf-8") as f:
+                            content = f.read()
+                    except Exception:
+                        content = ""
+
+                # PyModules: extract python packages from requirements files inside the package dir
+                if dep == "PyModules" and os.path.isdir(pkg_dir):
+                    req_files = ["requirements_analysisbase.txt.in", "requirements.txt.in"]
+                    for rf in req_files:
+                        rfpath = os.path.join(pkg_dir, rf)
+                        if not os.path.isfile(rfpath):
+                            continue
+                        try:
+                            with open(rfpath, "r", encoding="utf-8") as rfh:
+                                for line in rfh:
+                                    line = line.strip()
+                                    if not line or line.startswith("#"):
+                                        continue
+                                    m = re.match(r'^([A-Za-z0-9_\-]+)==([^\s]+)', line)
+                                    if not m:
+                                        continue
+                                    pkgname, pkgver = m.groups()
+                                    entry = f"{pkgname}: {pkgver}"
+                                    if entry not in existing_entries:
+                                        outf.write(entry + "\n")
+                                        existing_entries.add(entry)
+                                        print(f"Discovered Python package from PyModules: {pkgname}: {pkgver}")
+                        except Exception:
+                            continue
                     continue
-                with open(cmake_path, "r", encoding="utf-8") as f:
-                    for line in f:
-                        match = re.search(regex, line)
-                        if match:
-                            version = match.group(1)
-                            if dep == "Boost":
-                                version = version.replace("_", ".")
-                            outf.write(f"{dep}: {version}\n")
-                            print(f"Discovered {dep}: {version}")
+
+                # PyAnalysis: multiple python packages declared in its CMakeLists.txt
+                if dep == "PyAnalysis":
+                    if content:
+                        for name, ver in re.findall(r'sources/([A-Za-z0-9_\-]+)-([0-9][0-9A-Za-z\._\-]+)\.tar\.gz', content):
+                            entry = f"{name}: {ver}"
+                            if entry not in existing_entries:
+                                outf.write(entry + "\n")
+                                existing_entries.add(entry)
+                                print(f"Discovered {name}: {ver} (from PyAnalysis)")
+                        for name, ver in re.findall(r'([A-Za-z0-9_\-]+)\s*=\s*sources/[A-Za-z0-9_\-]+-([0-9][0-9A-Za-z\._\-]+)\.tar\.gz', content):
+                            entry = f"{name}: {ver}"
+                            if entry not in existing_entries:
+                                outf.write(entry + "\n")
+                                existing_entries.add(entry)
+                                print(f"Discovered {name}: {ver} (from PyAnalysis)")
+                    continue
+
+                # Generic per-package parsing
+                found_version = None
+                regex_list = patterns.get(dep_key, [])
+                for rx in regex_list:
+                    if content:
+                        m = re.search(rx, content)
+                        if m:
+                            found_version = m.group(1)
                             break
+
+                if not found_version and content:
+                    generic_patterns = [
+                        r'/sources/[^/]+-([0-9A-Za-z\._\-]+)\.tar\.gz',
+                        r'[-_/]v?([0-9]+\.[0-9]+\.[0-9A-Za-z\._\-]+)\.tar\.gz',
+                        r'[-_/]v?([0-9]+\.[0-9A-Za-z\._\-]+)\.tar\.gz',
+                        r'([0-9]{6,})\.tar\.gz'
+                    ]
+                    for rx in generic_patterns:
+                        m = re.search(rx, content)
+                        if m:
+                            found_version = m.group(1)
+                            break
+
+                if found_version:
+                    if dep_key == "Boost":
+                        found_version = found_version.replace("_", ".")
+                    entry = f"{dep}: {found_version}"
+                    if entry not in existing_entries:
+                        outf.write(entry + "\n")
+                        existing_entries.add(entry)
+                        print(f"Discovered {dep}: {found_version}")
         print(f"Exiting parse_cmakelists() - Current directory: {os.getcwd()}")
 
-    # --- CycloneDX SBOM JSON ---
-    def generate_cyclonedx_sbom(self, analysisbase_version="25.2.69", externals_version="2.1.16.7") -> str:
-        # Place metadata near the top, only include AnalysisBase and AnalysisBaseExternals properties
+    def parse_python_packages_1(self):
+        base = os.path.dirname(__file__)
+        outpath = os.path.join(base, "pyDep.txt")
+        found = set()
+        req_files = ["requirements_analysisbase.txt.in", "requirements.txt.in"]
+        for rf in req_files:
+            if not os.path.isfile(rf):
+                continue
+            try:
+                with open(rf, "r", encoding="utf-8") as rfh:
+                    for line in rfh:
+                        line = line.strip()
+                        if not line or line.startswith("#"):
+                            continue
+                        m = re.match(r'^([A-Za-z0-9_\-]+)==([^\s]+)', line)
+                        if not m:
+                            continue
+                        pkgname, pkgver = m.groups()
+                        found.add((pkgname, pkgver))
+            except Exception:
+                continue
+        if found:
+            with open(outpath, "a", encoding="utf-8") as out:
+                for pkgname, pkgver in sorted(found):
+                    out.write(f"{pkgname}: {pkgver}\n")
+            print(f"Wrote {len(found)} python package(s) to {outpath}")
+
+    def parse_python_packages_2(self):
+        cmake = "CMakeLists.txt"
+        if not os.path.isfile(cmake):
+            print(f"CMakeLists.txt not found in {os.getcwd()}")
+            return
+        outpath = os.path.join(os.path.dirname(__file__), "pyDep.txt")
+        found = set()
+        try:
+            with open(cmake, "r", encoding="utf-8") as f:
+                content = f.read()
+        except Exception:
+            content = ""
+
+        for name, ver in re.findall(r'sources/([A-Za-z0-9_\-]+)-([0-9][0-9A-Za-z\._\-]+)\.tar\.gz', content):
+            found.add((name, ver))
+        for name, ver in re.findall(r'([A-Za-z0-9_\-]+)\s*=\s*sources/[A-Za-z0-9_\-]+-([0-9][0-9A-Za-z\._\-]+)\.tar\.gz', content):
+            found.add((name, ver))
+
+        if found:
+            with open(outpath, "a", encoding="utf-8") as out:
+                for name, ver in sorted(found):
+                    out.write(f"{name}: {ver}\n")
+            print(f"Wrote {len(found)} python package(s) to {outpath}")
+
+    def generate_cyclonedx_sbom(self, analysisbase_version="main", externals_version="main") -> str:
         metadata = BomMetaData(
             properties=[
                 Property(name="AnalysisBase", value=analysisbase_version),
                 Property(name="AnalysisBaseExternals", value=externals_version)
             ]
         )
-
         bom = Bom(metadata=metadata)
-
         for dep in sorted(self.dependencies, key=lambda x: x.name.lower()):
             component = Component(
                 name=dep.name,
                 version=dep.version or "undefined",
                 type=ComponentType.LIBRARY
             )
-            # Do NOT add per-component properties
             bom.components.add(component)
-
         outputter = make_outputter(
             bom=bom,
             output_format=OutputFormat.JSON,
@@ -143,20 +363,16 @@ class SBOMGenerator:
             f.write(sbom_json)
         print(f"SBOM saved to {output_path}")
 
-    # --- Markdown report ---
-    def generate_markdown_report(self, analysisbase_version="25.2.69", externals_version="2.1.16.7") -> str:
+    def generate_markdown_report(self, analysisbase_version="main", externals_version="main") -> str:
         md = []
         md.append("# AnalysisBase SBOM Report\n")
         md.append(f"**Generated on:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         md.append(f"**Total dependencies:** {len(self.dependencies)}\n")
-
-        # Add version info table
         md.append("## Source Versions\n")
         md.append("| Source | Version |")
         md.append("|--------|---------|")
         md.append(f"| AnalysisBase | {analysisbase_version} |")
         md.append(f"| AnalysisBaseExternals | {externals_version} |\n")
-
         if self.dependencies:
             md.append("## All Dependencies\n")
             md.append("| Package | Version |")
@@ -164,7 +380,6 @@ class SBOMGenerator:
             for dep in sorted(self.dependencies, key=lambda x: x.name.lower()):
                 md.append(f"| {dep.name} | {dep.version or 'undefined'} |")
             md.append("")
-
         return "\n".join(md)
 
     def save_markdown_report(self, output_path="analysis-base-sbom.md"):
@@ -173,14 +388,12 @@ class SBOMGenerator:
             f.write(md_content)
         print(f"Markdown report saved to {output_path}")
 
-    # --- Main generate ---
     def generate(self, output_json="analysis-base-sbom.json", output_md="analysis-base-sbom.md"):
         print("Parsing Python dependencies...")
         self.parse_py_deps()
         print("Parsing C++ dependencies...")
         self.parse_cpp_deps()
         print(f"Found {len(self.dependencies)} dependencies total.")
-
         self.save_sbom(output_json)
         self.save_markdown_report(output_md)
 
@@ -189,18 +402,15 @@ class SBOMGenerator:
         pydep_path = os.path.join(base_dir, pydep_path)
         cppdep_path = os.path.join(base_dir, cppdep_path)
 
-        # Parse pyDep.txt for Python version
         version = None
         if not os.path.exists(pydep_path):
-            print(f"Python dependency file not found: {pydep_path}")
             return
         with open(pydep_path, "r", encoding="utf-8") as f:
             for line in f:
-                if line.startswith("Python 3."):
-                    m = re.search(r'Python (\d+\.\d+\.\d+)', line)
+                if line.lower().startswith("python"):
+                    m = re.search(r'([Pp]ython)\s*[:\s]*([0-9]+\.[0-9]+(?:\.[0-9]+)?)', line)
                     if m:
-                        version = m.group(1)
-                        print(f"Discovered Python: {version}")
+                        version = m.group(2)
                         break
         if version:
             already_present = False
@@ -216,34 +426,30 @@ class SBOMGenerator:
 
 
 def main():
-    print(f"Script started in directory: {os.getcwd()}")
     parser = argparse.ArgumentParser()
-    parser.add_argument('--parse-gitlab', action='store_true')
-    parser.add_argument('--parse-cpp', action='store_true')
-    parser.add_argument('--parse-terminal', nargs='?', const='cppDep.txt')
     parser.add_argument('--parse-cmakelists', action='store_true')
-    parser.add_argument('--extract-python-version', action='store_true')
+    parser.add_argument('--parse-package-filter', action='store_true')
+    parser.add_argument('--parse-python-packages-1', action='store_true')
+    parser.add_argument('--parse-python-packages-2', action='store_true')
+    parser.add_argument('--parse-cpp', action='store_true')
     args = parser.parse_args()
 
     generator = SBOMGenerator()
 
-    if args.parse_gitlab:
-        generator.parse_py_deps()
-        print("Parsed GitLab dependencies.")
+    if args.parse_cmakelists:
+        generator.parse_cmakelists()
+        print("Parsed CMakeLists.txt for dependencies.")
+    if args.parse_package_filter:
+        generator.export_package_filters()
+        print("Exported package_filters.txt (if present).")
+    if args.parse_python_packages_1:
+        generator.parse_python_packages_1()
+    if args.parse_python_packages_2:
+        generator.parse_python_packages_2()
     if args.parse_cpp:
         generator.extract_python_version_and_update_cppdep()
         generator.generate()
         print("Parsed dependencies and generated SBOM.")
-    if args.parse_terminal:
-        generator.parse_terminal_output(args.parse_terminal)
-        print(f"Parsed terminal output from {args.parse_terminal}.")
-    if args.parse_cmakelists:
-        generator.parse_cmakelists()
-        print("Parsed CMakeLists.txt for dependencies.")
-    if args.extract_python_version:
-        generator.extract_python_version_and_update_cppdep()
-        print("Extracted Python version and updated cppDep.txt.")
-    print(f"Script finished in directory: {os.getcwd()}")
 
 if __name__ == "__main__":
     main()
