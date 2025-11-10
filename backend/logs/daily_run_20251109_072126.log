@@ -1,0 +1,24 @@
+[2025-11-09 07:21:26] === Starting Daily SBOM Generation Run ===
+[2025-11-09 07:21:26] === Starting Daily SBOM Generation Run ===
+[2025-11-09 07:21:27] Found project: AnalysisBase
+[2025-11-09 07:21:27] Found project: AnalysisBase
+[2025-11-09 07:21:27] Running setup.sh for AnalysisBase...
+[2025-11-09 07:21:27] Running setup.sh for AnalysisBase...
+[2025-11-09 07:21:27] ✗ AnalysisBase: SBOM generation failed
+[2025-11-09 07:21:27] ✗ AnalysisBase: SBOM generation failed
+[2025-11-09 07:21:27] Found project: Athena
+[2025-11-09 07:21:27] Found project: Athena
+[2025-11-09 07:21:27] Running setup.sh for Athena...
+[2025-11-09 07:21:27] Running setup.sh for Athena...
+[2025-11-09 07:21:27] ✗ Athena: SBOM generation failed
+[2025-11-09 07:21:27] ✗ Athena: SBOM generation failed
+[2025-11-09 07:21:27] Found project: StatAnalysis
+[2025-11-09 07:21:27] Found project: StatAnalysis
+[2025-11-09 07:21:27] Running setup.sh for StatAnalysis...
+[2025-11-09 07:21:27] ✗ StatAnalysis: SBOM generation failed
+[2025-11-09 07:21:27] === Daily Run Summary ===
+[2025-11-09 07:21:28] Projects found: 3
+[2025-11-09 07:21:28] Projects succeeded: 0
+[2025-11-09 07:21:28] Projects failed: 3
+[2025-11-09 07:21:28] Failed projects: AnalysisBase Athena StatAnalysis
+[2025-11-09 07:21:28] === Daily SBOM Generation Run Complete ===

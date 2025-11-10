@@ -1,0 +1,141 @@
+[2025-11-09 18:23:42] === Starting Daily SBOM Generation Run ===
+[2025-11-09 18:23:42] Running priority projects first...
+[2025-11-09 18:23:42] Found project: Athena
+[2025-11-09 18:23:42] Running setup.sh for Athena...
+Cleaning up old files...
+Cloning AtlasExternals...
+Cloning into 'AtlasExternals'...
+Ensuring pip + cyclonedx are available...
+Requirement already satisfied: pip in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (25.3)
+Requirement already satisfied: cyclonedx-python-lib in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (11.1.0)
+Requirement already satisfied: license-expression<31,>=30 in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (from cyclonedx-python-lib) (30.4.3)
+Requirement already satisfied: packageurl-python<2,>=0.11 in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (from cyclonedx-python-lib) (0.17.1)
+Requirement already satisfied: py-serializable<3.0.0,>=2.1.0 in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (from cyclonedx-python-lib) (2.1.0)
+Requirement already satisfied: sortedcontainers<3.0.0,>=2.4.0 in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (from cyclonedx-python-lib) (2.4.0)
+Requirement already satisfied: typing_extensions<5.0,>=4.6 in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (from cyclonedx-python-lib) (4.13.2)
+Requirement already satisfied: boolean.py>=4.0 in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (from license-expression<31,>=30->cyclonedx-python-lib) (5.0)
+Requirement already satisfied: defusedxml<0.8.0,>=0.7.1 in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (from py-serializable<3.0.0,>=2.1.0->cyclonedx-python-lib) (0.7.1)
+Generating SBOM and Markdown report...
+Parsing build log...
+LCG Version: 106b_ATLAS_1
+Platform: x86_64-el9-gcc13-opt
+Packages from build log: 26
+Fetching and parsing LCG website packages...
+Fetching LCG packages from: https://lcginfo.cern.ch/release_packages/106b_ATLAS_1/x86_64-el9-gcc13-opt/
+Successfully fetched HTML from LCG website
+Parsed 295 packages from LCG website
+Comparing packages...
+Found 21 packages not in LCG website: ['Acts', 'CheckerGccPlugins', 'COOL', 'CORAL', 'flake8_atlas', 'Gaudi', 'Geant4', 'VecGeom', 'GeoModel', 'GoogleTest', 'lwtnn', 'MKL', 'onnxruntime', 'prmon', 'PyModules', 'Simage', 'SoQt', 'dSFMT', 'triSYCL', 'yampl', 'VecMem']
+Parsing AtlasExternals for 21 missing packages...
+Discovered Acts: 43.0.0 from AtlasExternals
+Could not find version for CheckerGccPlugins
+Could not find version for COOL
+Could not find version for CORAL
+Could not find version for flake8_atlas
+Could not find version for Gaudi
+Discovered Geant4: 10.6.3.15 from AtlasExternals
+Discovered VecGeom: 1.1.20 from AtlasExternals
+Could not find version for GeoModel
+Discovered GoogleTest: 1.16.0 from AtlasExternals
+Discovered lwtnn: 2.14.1 from AtlasExternals
+Could not find version for MKL
+Discovered onnxruntime: 1.19.2 from AtlasExternals
+Discovered prmon: 3.1.1 from AtlasExternals
+Could not find version for Simage
+Could not find version for SoQt
+Discovered dSFMT: 2.1 from AtlasExternals
+Could not find version for triSYCL
+Could not find version for yampl
+Discovered VecMem: 1.13.0 from AtlasExternals
+Parsing C++ dependencies from cppDep.txt...
+C++ dependency file not found: C:\Users\Tom\Documents\CERN\DEVELOPMENTsbom\backend\Athena\cppDep.txt
+Found 308 dependencies total.
+SBOM saved to athena-sbom.json
+Markdown report saved to athena-sbom.md
+SBOM generation complete.
+Versioning and saving SBOM...
+SBOM saved to SBOMs\v3/ (version 3)
+Removing AtlasExternals clone...
+SBOM generation complete!
+[2025-11-09 18:23:49] ✓ Athena: SBOM generation completed successfully
+[2025-11-09 18:23:49] Found project: AnalysisBase
+[2025-11-09 18:23:49] Running setup.sh for AnalysisBase...
+Cloning AtlasExternals...
+Cloning into 'AtlasExternals'...
+Parsing CMakeLists.txt for C++ dependencies...
+Entering parse_cmakelists() - Current directory: C:\Users\Tom\Documents\CERN\DEVELOPMENTsbom\backend\AnalysisBase\AtlasExternals\External
+Discovered HDF5: 1.14.6
+Discovered BAT: 0.9.4.1
+Discovered Blas: 0.3.29
+Discovered Boost: 1.88.0
+Discovered Davix: 0.8.10
+Discovered dcap: 2.47.7
+Discovered Eigen: 3.4.1
+Discovered lwtnn: 2.14.1
+Discovered FastJet: 3.5.0
+Discovered FastJetContrib: 1.101
+Discovered GoogleTest: 1.16.0
+Discovered KLFitter: 1.4.0
+Discovered Lhapdf: 6.5.5
+Discovered LibXml2: 2.10.4
+Discovered onnxruntime: 1.19.2
+Discovered nlohmann_json: 3.11.3
+Discovered setuptools: 75.8.0 (from PyAnalysis)
+Discovered Cython: 3.0.12 (from PyAnalysis)
+Discovered numpy: 2.1.3 (from PyAnalysis)
+Discovered PyYAML: 6.0.2 (from PyAnalysis)
+Discovered wheel: 0.45.0 (from PyAnalysis)
+Discovered pip: 23.3.1 (from PyAnalysis)
+Discovered Python package from PyModules: nanobind: 2.7.0
+Discovered Python package from PyModules: pyami: 5.1.7
+Discovered Python package from PyModules: histgrinder: 0.1.6
+Discovered Python package from PyModules: lark: 1.0.0
+Discovered Python: 3.4.2
+Discovered ROOT: 6.36.04
+Discovered SQLite: 3320300
+Discovered TBB: 2022.2.0
+Discovered XRootD: 5.8.3
+Exiting parse_cmakelists() - Current directory: C:\Users\Tom\Documents\CERN\DEVELOPMENTsbom\backend\AnalysisBase\AtlasExternals\External
+Parsed CMakeLists.txt for dependencies.
+Copied package_filters.txt to C:\Users\Tom\Documents\CERN\DEVELOPMENTsbom\backend\AnalysisBase\package_filters.txt
+Exported package_filters.txt (if present).
+Gathering Python Packages
+Wrote 4 python package(s) to C:\Users\Tom\Documents\CERN\DEVELOPMENTsbom\backend\AnalysisBase\pyDep.txt
+Wrote 6 python package(s) to C:\Users\Tom\Documents\CERN\DEVELOPMENTsbom\backend\AnalysisBase\pyDep.txt
+Removing AtlasExternals clone...
+Ensuring pip + cyclonedx are available...
+Requirement already satisfied: pip in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (25.3)
+Requirement already satisfied: cyclonedx-python-lib in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (11.1.0)
+Requirement already satisfied: license-expression<31,>=30 in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (from cyclonedx-python-lib) (30.4.3)
+Requirement already satisfied: packageurl-python<2,>=0.11 in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (from cyclonedx-python-lib) (0.17.1)
+Requirement already satisfied: py-serializable<3.0.0,>=2.1.0 in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (from cyclonedx-python-lib) (2.1.0)
+Requirement already satisfied: sortedcontainers<3.0.0,>=2.4.0 in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (from cyclonedx-python-lib) (2.4.0)
+Requirement already satisfied: typing_extensions<5.0,>=4.6 in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (from cyclonedx-python-lib) (4.13.2)
+Requirement already satisfied: boolean.py>=4.0 in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (from license-expression<31,>=30->cyclonedx-python-lib) (5.0)
+Requirement already satisfied: defusedxml<0.8.0,>=0.7.1 in c:\users\tom\appdata\local\packages\pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0\localcache\local-packages\python311\site-packages (from py-serializable<3.0.0,>=2.1.0->cyclonedx-python-lib) (0.7.1)
+Generating SBOM and Markdown report...
+Parsing Python dependencies...
+Parsing C++ dependencies...
+Found 31 dependencies total.
+SBOM saved to analysis-base-sbom.json
+Parsing build information...
+Markdown report saved to analysis-base-sbom.md
+Parsed dependencies and generated SBOM.
+Versioning and saving SBOM...
+SBOM is identical to most recent version (v3). No new version created.
+SBOM generation complete!
+[2025-11-09 18:23:56] ✓ AnalysisBase: SBOM generation completed successfully
+[2025-11-09 18:23:56] Found project: StatAnalysis
+[2025-11-09 18:23:56] Running setup.sh for StatAnalysis...
+Sourcing ATLAS environment...
+setup.sh: line 9: /cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase/user/atlasLocalSetup.sh: No such file or directory
+Setting up StatAnalysis...
+setup.sh: line 13: asetup: command not found
+asetup failed
+[2025-11-09 18:23:56] ✗ StatAnalysis: SBOM generation failed
+[2025-11-09 18:23:56] === Daily Run Summary ===
+[2025-11-09 18:23:56] Projects found: 3
+[2025-11-09 18:23:56] Projects succeeded: 2
+[2025-11-09 18:23:56] Projects failed: 1
+[2025-11-09 18:23:56] Failed projects: StatAnalysis
+[2025-11-09 18:23:56] === Daily SBOM Generation Run Complete ===
